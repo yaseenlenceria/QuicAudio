@@ -49,7 +49,7 @@ export class MatchmakingQueue {
 
     let bestMatch: { partnerId: string; score: number } | null = null;
 
-    for (const [candidateId, candidate] of this.queue.entries()) {
+    for (const [candidateId, candidate] of Array.from(this.queue.entries())) {
       if (candidateId === userId || this.matchingInProgress.has(candidateId)) {
         continue;
       }

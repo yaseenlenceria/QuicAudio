@@ -10,8 +10,15 @@ interface WSClient {
   userId: string;
 }
 
+interface ActiveCall {
+  user1: string;
+  user2: string;
+  sessionId: string;
+  startTime: number;
+}
+
 const clients = new Map<string, WSClient>();
-const activeCalls = new Map<string, { user1: string; user2: string; sessionId: string; startTime: number }>();
+const activeCalls = new Map<string, ActiveCall>();
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/users", async (req, res) => {
@@ -46,12 +53,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/stats", async (req, res) => {
     try {
       const onlineUsers = clients.size;
-      const activeCalls = Array.from(activeCalls.values()).length;
+      const activeCallsCount = activeCalls.size;
       const queueSize = matchmakingQueue.getQueueSize();
       
       res.json({
         onlineUsers,
-        activeCalls,
+        activeCalls: activeCallsCount,
         queueSize,
       });
     } catch (error) {

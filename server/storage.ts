@@ -112,10 +112,10 @@ export class DatabaseStorage implements IStorage {
       const [updated] = await db
         .update(matchPreferences)
         .set({
-          countries: insertPrefs.countries,
-          languages: insertPrefs.languages,
-          ageRange: insertPrefs.ageRange,
-          moods: insertPrefs.moods,
+          countries: insertPrefs.countries as any,
+          languages: insertPrefs.languages as any,
+          ageRange: insertPrefs.ageRange as any,
+          moods: insertPrefs.moods as any,
           updatedAt: new Date(),
         })
         .where(eq(matchPreferences.userId, insertPrefs.userId))
@@ -124,7 +124,7 @@ export class DatabaseStorage implements IStorage {
     } else {
       const [created] = await db
         .insert(matchPreferences)
-        .values(insertPrefs)
+        .values(insertPrefs as any)
         .returning();
       return created;
     }
