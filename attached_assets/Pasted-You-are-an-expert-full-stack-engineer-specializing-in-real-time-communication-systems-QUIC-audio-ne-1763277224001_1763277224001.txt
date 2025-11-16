@@ -1,0 +1,161 @@
+You are an expert full-stack engineer specializing in real-time communication systems, QUIC audio networking, AI routing, and high-scale backend architecture.
+
+Your task is to build a full production-level “Random Voice Stranger Calling App” WITHOUT using WebRTC. 
+Instead, use a QUIC-based peer-to-peer audio pipeline with a fallback Micro-SFU relay.
+
+The system must support thousands of users, extremely low call-drop rates, and high-quality audio.
+
+=========================
+🌐 1. TECHNOLOGY REQUIREMENTS
+=========================
+DO NOT use WebRTC.
+Instead, implement:
+
+1. QUIC (HTTP/3) bidirectional streams for audio transport.
+2. Audio encoded via Opus using WASM.
+3. A P2P “Audio Pipe” layer using QUIC peer-to-peer.
+4. A fallback Micro-SFU relay for when P2P fails.
+5. AI-driven matchmaking engine.
+6. Redis queue for waiting users.
+7. Database (ClickHouse or Postgres) for analytics and abuse logs.
+8. Unique ID stored in browser (localStorage) — no login, no signup.
+
+=========================
+🎧 2. AUDIO PIPE REQUIREMENTS
+=========================
+- Capture mic audio using AudioWorklet.
+- Encode to Opus using WebAssembly.
+- Chunk & send frames over QUIC streams.
+- Receive & decode audio on the peer-side.
+- Auto-reconnect on network issues.
+- Fallback to Micro-SFU when NAT blocks P2P.
+
+=========================
+🔀 3. RANDOM MATCHING + AI ROUTING
+=========================
+Create an AI-powered routing system that:
+- Matches users randomly.
+- Detects user country via IP.
+- Can match by optional filters:
+   - Country
+   - Language
+   - Age range
+   - Mood (“sad”, “happy”, “talkative”, etc.)
+- Blocks known bots, spam, and repeat disconnects.
+- Prioritizes real humans.
+- Tracks conversation durations.
+- Avoids toxic users (+ scoring system).
+
+=========================
+🖥 4. BACKEND ARCHITECTURE
+=========================
+Build all backend components:
+
+1. Identity Service  
+   - Generates unique anonymous user IDs.
+
+2. Matchmaking Service  
+   - Uses Redis lists, sorted sets, and event streams.
+
+3. AI Router  
+   - Decides best match for each user.
+   - Flags suspicious behavior.
+   - Records user interaction data.
+
+4. Micro-SFU Relay  
+   - Super-light forwarding of QUIC audio if P2P fails.
+   - Ultra-low latency (<50ms hop).
+
+5. Analytics Pipeline  
+   - Store events: join, leave, match, disconnect, duration.
+
+=========================
+📱 5. FRONTEND REQUIREMENTS
+=========================
+Build a minimal frontend:
+
+- “Start Voice Chat” button
+- “Searching for someone...” state
+- “Connected with Stranger” screen
+- Audio level visualization (optional)
+- “Next Person” button
+- “End Call” button
+- Auto-connect to the next stranger on hang-up (user option)
+
+=========================
+📡 6. CONNECTION FLOW
+=========================
+1. User loads site → unique ID created.
+2. User presses “Start Chat.”
+3. User enters matchmaking queue.
+4. AI router matches them.
+5. Attempt direct P2P QUIC audio link.
+6. If fails → auto-connect via Micro-SFU.
+7. Both ends exchange audio in real time.
+8. On “Next” → destroy current pipes & request new match.
+
+=========================
+🏗 7. WHAT YOU MUST GENERATE
+=========================
+You must output ALL OF THE FOLLOWING:
+
+### A. SYSTEM ARCHITECTURE
+- High-level diagram
+- All microservices and how they communicate
+- P2P QUIC audio pipeline diagram
+- Fallback SFU flow diagram
+
+### B. FOLDER STRUCTURE
+For example:
+- /frontend
+- /backend/matchmaker
+- /backend/ai-router
+- /backend/micro-sfu
+- /backend/identity
+- /backend/common
+- /db
+- /infrastructure
+
+### C. REAL CODE EXAMPLES
+- AudioWorklet + Opus encoder code
+- QUIC client connection code
+- QUIC server (GO or Rust recommended)
+- Micro-SFU forwarding logic
+- Redis matchmaking queue
+- AI routing engine logic (Node or Python)
+
+### D. DEPLOYMENT GUIDE
+- How to deploy QUIC backend on Ubuntu
+- How to run the Redis queue
+- How to load balance for 1000+ users
+- Dockerfiles for every service
+- Nginx/Haproxy config for HTTP/3 QUIC
+
+### E. FIX CALL-DROP ISSUES
+Explain:
+- NAT traversal for QUIC
+- Auto-reconnect logic
+- Heartbeat pings
+- Priority-based audio packet queueing
+- Congestion handling
+
+=========================
+⚙ 8. QUALITY REQUIREMENTS
+=========================
+- Make everything extremely stable.
+- Zero WebRTC.
+- No video, only audio.
+- Ultra low latency.
+- Human-readable code.
+- Scalable to thousands.
+- Think outside the box.
+- Apply latest 2025–2026 techniques.
+
+=========================
+FINAL OUTPUT
+=========================
+Give me the entire architecture, code templates, diagrams (ASCII-based), & implementation steps.
+
+Do NOT skip anything.
+Do NOT simplify.
+Build it exactly as requested.
